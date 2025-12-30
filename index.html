@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLAMES - Destiny Relationship Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <button class="settings-btn" id="settingsBtn" title="Settings">⚙️</button>
+        <div class="settings-dropdown" id="settingsDropdown">
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="soundToggle" checked>
+                    <span>Sound Effects</span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <button class="history-btn" id="historyBtn">📜 View History</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="history-modal" id="historyModal">
+        <div class="history-content">
+            <div class="history-header">
+                <h2>💫 Calculation History</h2>
+                <button class="close-history" id="closeHistory">✕</button>
+            </div>
+            <div class="history-list" id="historyList">
+                <p class="no-history">No calculations yet. Start your first destiny reading! ✨</p>
+            </div>
+            <button class="clear-history-btn" id="clearHistoryBtn">🗑️ Clear All History</button>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Home Screen -->
+        <div class="screen active" id="homeScreen">
+            <div class="logo-container">
+                <div class="flames-logo">
+                    <span class="flame-letter">F</span>
+                    <span class="flame-letter">L</span>
+                    <span class="flame-letter">A</span>
+                    <span class="flame-letter">M</span>
+                    <span class="flame-letter">E</span>
+                    <span class="flame-letter">S</span>
+                </div>
+                <h1 class="main-title">Destiny Relationship Analyzer</h1>
+                <p class="subtitle">Discover your cosmic connection</p>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <label for="name1">Your Name</label>
+                        <input type="text" id="name1" placeholder="Enter your name..." maxlength="30">
+                        <div class="input-glow"></div>
+                    </div>
+                </div>
+
+                <div class="heart-divider">
+                    <div class="heart-icon">💕</div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <label for="name2">Their Name</label>
+                        <input type="text" id="name2" placeholder="Enter their name..." maxlength="30">
+                        <div class="input-glow"></div>
+                    </div>
+                </div>
+
+                <button class="play-button" id="calculateBtn">
+                    <span class="button-text">Reveal Destiny</span>
+                    <div class="button-glow"></div>
+                    <div class="button-particles"></div>
+                </button>
+
+                <div class="error-message" id="errorMsg"></div>
+            </div>
+        </div>
+
+        <!-- Calculation Screen -->
+        <div class="screen" id="calculationScreen">
+            <div class="calculation-content">
+                <h2 class="calc-title">🔮 Destiny Calculation in Progress</h2>
+                
+                <!-- Step 1: Letter Matching -->
+                <div class="calc-step" id="step1">
+                    <div class="step-label">Step 1: Finding Common Letters</div>
+                    <div class="names-comparison">
+                        <div class="name-letters" id="name1Letters"></div>
+                        <div class="matching-indicator">⚡</div>
+                        <div class="name-letters" id="name2Letters"></div>
+                    </div>
+                    <div class="match-counter" id="matchCounter">Matches found: <span>0</span></div>
+                </div>
+
+                <!-- Step 2: Remaining Letters -->
+                <div class="calc-step" id="step2">
+                    <div class="step-label">Step 2: Remaining Unique Letters</div>
+                    <div class="remaining-letters" id="remainingLetters"></div>
+                    <div class="count-display" id="countDisplay">Total Count: <span>0</span></div>
+                </div>
+
+                <!-- Step 3: FLAMES Elimination -->
+                <div class="calc-step" id="step3">
+                    <div class="step-label">Step 3: Eliminating FLAMES Letters</div>
+                    <div class="flames-circle" id="flamesCircle">
+                        <div class="flames-item" data-letter="F">F</div>
+                        <div class="flames-item" data-letter="L">L</div>
+                        <div class="flames-item" data-letter="A">A</div>
+                        <div class="flames-item" data-letter="M">M</div>
+                        <div class="flames-item" data-letter="E">E</div>
+                        <div class="flames-item" data-letter="S">S</div>
+                    </div>
+                    <div class="elimination-info" id="eliminationInfo">
+                        Counting: <span id="currentCount">0</span> of <span id="totalCount">0</span>
+                    </div>
+                </div>
+
+                <!-- Step 4: Final Result Suspense -->
+                <div class="calc-step" id="step4">
+                    <div class="step-label">Step 4: Revealing Your Destiny</div>
+                    <div class="final-letter-reveal" id="finalLetterReveal">?</div>
+                </div>
+
+                <div class="calculation-progress-bar">
+                    <div class="calc-progress-fill" id="calcProgressFill"></div>
+                    <div class="calc-stage-text" id="calcStageText">Initializing...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen (Quick Transition) -->
+        <div class="screen" id="loadingScreen">
+            <div class="loading-content">
+                <div class="energy-orb">
+                    <div class="orb-inner"></div>
+                    <div class="orb-ring"></div>
+                    <div class="orb-ring ring-2"></div>
+                    <div class="orb-ring ring-3"></div>
+                </div>
+                <h2 class="loading-title">Finalizing Results...</h2>
+                <p class="loading-subtitle" id="loadingText">Preparing Your Destiny...</p>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="screen" id="resultScreen">
+            <div class="result-content">
+                <div class="result-header">
+                    <h2 class="names-display" id="namesDisplay"></h2>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-icon" id="resultIcon"></div>
+                    
+                    <div class="result-reveal">
+                        <div class="result-label">You Are</div>
+                        <h1 class="result-text" id="resultText">LOADING...</h1>
+                        <div class="result-glow"></div>
+                    </div>
+
+                    <div class="compatibility-bar">
+                        <div class="compatibility-label">Compatibility Score</div>
+                        <div class="compatibility-track">
+                            <div class="compatibility-fill" id="compatibilityFill"></div>
+                            <div class="compatibility-percentage" id="compatibilityPercent">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="result-message">
+                        <p class="message-text" id="resultMessage"></p>
+                    </div>
+
+                    <div class="result-quote">
+                        <div class="quote-icon">"</div>
+                        <p class="quote-text" id="resultQuote"></p>
+                        <div class="quote-icon">"</div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="secondary-button" id="shareBtn">
+                        <span>📸 Share Result</span>
+                    </button>
+                    <button class="primary-button" id="restartBtn">
+                        <span>🔄 Try Again</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshot Capture Frame -->
+    <div class="screenshot-frame" id="screenshotFrame">
+        <div class="screenshot-content" id="screenshotContent">
+            <div class="screenshot-header">
+                <div class="flames-logo-small">
+                    <span class="flame-letter-small">F</span>
+                    <span class="flame-letter-small">L</span>
+                    <span class="flame-letter-small">A</span>
+                    <span class="flame-letter-small">M</span>
+                    <span class="flame-letter-small">E</span>
+                    <span class="flame-letter-small">S</span>
+                </div>
+                <div class="screenshot-subtitle">Destiny Relationship Analyzer</div>
+            </div>
+            
+            <div class="screenshot-result-card">
+                <div class="screenshot-names" id="screenshotNames"></div>
+                <div class="screenshot-icon" id="screenshotIcon"></div>
+                <div class="screenshot-result-text" id="screenshotResultText"></div>
+                <div class="screenshot-compatibility">
+                    <div class="screenshot-comp-label">Compatibility</div>
+                    <div class="screenshot-comp-value" id="screenshotCompatibility">0%</div>
+                </div>
+                <div class="screenshot-message" id="screenshotMessage"></div>
+                <div class="screenshot-emoji-trail" id="screenshotEmojiTrail"></div>
+            </div>
+            
+            <div class="screenshot-footer">
+                Try it yourself! ✨ FLAMES Game
+            </div>
+        </div>
+        
+        <!-- Flash Effect -->
+        <div class="camera-flash" id="cameraFlash"></div>
+    </div>
+
+    <!-- Floating Emojis -->
+    <div class="floating-emojis" id="floatingEmojis"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
