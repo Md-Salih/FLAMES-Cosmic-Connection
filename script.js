@@ -21,10 +21,6 @@ const particlesContainer = document.getElementById('particles');
 const floatingEmojisContainer = document.getElementById('floatingEmojis');
 
 // New DOM elements
-const settingsBtn = document.getElementById('settingsBtn');
-const settingsDropdown = document.getElementById('settingsDropdown');
-const soundToggle = document.getElementById('soundToggle');
-const historyBtn = document.getElementById('historyBtn');
 const historyModal = document.getElementById('historyModal');
 const closeHistory = document.getElementById('closeHistory');
 const historyList = document.getElementById('historyList');
@@ -49,7 +45,7 @@ const flamesData = {
     F: {
         full: 'FRIENDS',
         icon: '🤝',
-        color: '#4ecdc4',
+        color: '#9d4edd',
         compatibility: 75,
         message: "Your connection is built on trust, laughter, and mutual respect. You're each other's confidant and support system. A beautiful friendship that stands the test of time.",
         quote: "True friendship is a plant of slow growth, and must undergo the shocks of adversity before it is entitled to the appellation."
@@ -57,7 +53,7 @@ const flamesData = {
     L: {
         full: 'LOVERS',
         icon: '💖',
-        color: '#ff6b9d',
+        color: '#c77dff',
         compatibility: 95,
         message: "Your hearts beat in perfect harmony. There's an undeniable chemistry and deep emotional connection between you. Love is in the air, and destiny has brought you together.",
         quote: "Love is not just looking at each other, it's looking in the same direction together."
@@ -65,7 +61,7 @@ const flamesData = {
     A: {
         full: 'AFFECTION',
         icon: '💕',
-        color: '#ffa07a',
+        color: '#b185db',
         compatibility: 85,
         message: "There's genuine care and warmth between you two. You share a tender bond filled with sweet moments and emotional intimacy. Your connection brings comfort and joy to each other's lives.",
         quote: "Affection is responsible for nine-tenths of whatever solid and durable happiness there is in our lives."
@@ -73,7 +69,7 @@ const flamesData = {
     M: {
         full: 'MARRIAGE',
         icon: '💍',
-        color: '#ffd700',
+        color: '#d8b4fe',
         compatibility: 90,
         message: "Your souls are meant to unite! You complement each other perfectly and share a vision for the future. This bond has the potential to last a lifetime, built on love, trust, and commitment.",
         quote: "A successful marriage requires falling in love many times, always with the same person."
@@ -81,7 +77,7 @@ const flamesData = {
     E: {
         full: 'ENEMIES',
         icon: '⚡',
-        color: '#ff4757',
+        color: '#7209b7',
         compatibility: 30,
         message: "Your energies clash and create friction. Different perspectives and approaches lead to conflicts. However, sometimes the strongest bonds form after overcoming challenges together.",
         quote: "Keep your friends close, and your enemies closer. Understanding leads to growth."
@@ -113,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Create particle background
 function createParticles() {
+    // Create floating particles
     for (let i = 0; i < 50; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
@@ -120,6 +117,18 @@ function createParticles() {
         particle.style.animationDelay = Math.random() * 15 + 's';
         particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
         particlesContainer.appendChild(particle);
+    }
+    
+    // Create falling stars
+    for (let i = 0; i < 20; i++) {
+        const star = document.createElement('div');
+        const sizes = ['small', 'medium', 'large'];
+        const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+        star.className = `star ${randomSize}`;
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 8 + 's';
+        star.style.animationDuration = (Math.random() * 6 + 8) + 's';
+        particlesContainer.appendChild(star);
     }
 }
 
@@ -129,12 +138,6 @@ function setupEventListeners() {
     restartBtn.addEventListener('click', restart);
     shareBtn.addEventListener('click', shareResult);
     
-    settingsBtn.addEventListener('click', toggleSettings);
-    soundToggle.addEventListener('change', (e) => {
-        soundEnabled = e.target.checked;
-    });
-    
-    historyBtn.addEventListener('click', showHistory);
     closeHistory.addEventListener('click', hideHistory);
     clearHistoryBtn.addEventListener('click', clearHistory);
     historyModal.addEventListener('click', (e) => {
@@ -465,6 +468,13 @@ function showResult(flamesResult) {
     
     const data = flamesData[flamesResult];
     
+    // Store result for sharing
+    currentResultForSharing = {
+        name1: name1,
+        name2: name2,
+        result: flamesResult
+    };
+    
     namesDisplay.textContent = `${name1} & ${name2}`;
     resultText.textContent = data.full;
     resultIcon.textContent = data.icon;
@@ -485,6 +495,9 @@ function showResult(flamesResult) {
     }
     
     playResultSound();
+    
+    // Make social nav visible
+    socialNav.style.display = 'flex';
 }
 
 // Helper Functions
@@ -529,15 +542,9 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Settings Functions
-function toggleSettings() {
-    settingsDropdown.classList.toggle('show');
-}
-
 function showHistory() {
     historyModal.classList.add('show');
     displayHistory();
-    toggleSettings();
 }
 
 function hideHistory() {
@@ -1124,7 +1131,7 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Console easter egg
-console.log('%c🔥 FLAMES - Destiny Relationship Analyzer 🔥', 'font-size: 20px; color: #ff006e; font-weight: bold;');
+console.log('%c🔥 FLAMES - Destiny Relationship Analyzer 🔥', 'font-size: 20px; color: #9d4edd; font-weight: bold;');
 console.log('%cMade with ❤️ and ✨', 'font-size: 14px; color: #667eea;');
 console.log('%cTry entering your name to discover your destiny!', 'font-size: 12px; color: #764ba2;');
 // ===== SOCIAL FEATURES JAVASCRIPT =====
@@ -1152,6 +1159,7 @@ const loginBtn = document.getElementById('loginBtn');
 const signupBtn = document.getElementById('signupBtn');
 const continueAsGuest = document.getElementById('continueAsGuest');
 const logoutBtn = document.getElementById('logoutBtn');
+const userInfo = document.getElementById('userInfo');
 
 const createPostTrigger = document.getElementById('createPostTrigger');
 const postsFeed = document.getElementById('postsFeed');
@@ -1230,12 +1238,17 @@ function setupSocialEventListeners() {
     navStories.addEventListener('click', () => switchToNav(navStories, storiesScreen));
     navCalculator.addEventListener('click', () => {
         switchToNav(navCalculator, homeScreen);
-        socialNav.style.display = 'none';
+        // Keep navigation visible
+        socialNav.style.display = 'flex';
         socialFeedScreen.classList.remove('active');
         homeScreen.classList.add('active');
+        homeScreen.style.paddingBottom = '100px';
     });
     navLeaderboard.addEventListener('click', () => switchToNav(navLeaderboard, leaderboardScreen));
     navProfile.addEventListener('click', () => switchToNav(navProfile, profileScreen));
+    
+    // User info click to navigate to profile
+    userInfo.addEventListener('click', () => switchToNav(navProfile, profileScreen));
     
     // Auth
     closeAuth.addEventListener('click', hideAuthModal);
@@ -2094,25 +2107,6 @@ function restart() {
             }
         }, 1000);
     }
-}
-
-// Modified showResult to store current result
-const originalShowResult = showResult;
-function showResult(flamesResult) {
-    const name1 = name1Input.value.trim();
-    const name2 = name2Input.value.trim();
-    
-    // Store result for sharing
-    currentResultForSharing = {
-        name1: name1,
-        name2: name2,
-        result: flamesResult
-    };
-    
-    originalShowResult(flamesResult);
-    
-    // Make social nav visible
-    socialNav.style.display = 'flex';
 }
 
 // Initialize everything
