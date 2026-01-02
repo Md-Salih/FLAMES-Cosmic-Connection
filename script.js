@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createParticles();
     setupEventListeners();
     loadHistory();
+    initializeSocialFeatures();
     
     if ('vibrate' in navigator) {
         window.hasHapticSupport = true;
