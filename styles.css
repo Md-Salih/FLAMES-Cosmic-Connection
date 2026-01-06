@@ -236,7 +236,7 @@ body::before {
 .input-section {
     background: var(--card-bg);
     backdrop-filter: blur(20px);
-    border-radius: 30px;
+    border-radius: 8px;
     padding: 40px 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -264,7 +264,7 @@ body::before {
     font-size: 1.1rem;
     background: rgba(255, 255, 255, 0.05);
     border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
+    border-radius: 6px;
     color: var(--text-light);
     font-family: 'Poppins', sans-serif;
     transition: all 0.3s ease;
@@ -289,7 +289,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 15px;
+    border-radius: 6px;
     background: var(--love-gradient);
     opacity: 0;
     filter: blur(20px);
@@ -336,7 +336,7 @@ body::before {
     color: white;
     background: var(--love-gradient);
     border: none;
-    border-radius: 50px;
+    border-radius: 8px;
     cursor: pointer;
     overflow: hidden;
     transition: all 0.3s ease;
